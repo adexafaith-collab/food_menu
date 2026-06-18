@@ -1,0 +1,26 @@
+<h1>🍽️ Restaurant Menu</h1>
+
+{% for category in categories %}
+    <h2>{{ category.name }}</h2>
+
+    {% for food in category.food_set.all %}
+        <div style="border:1px solid #ddd; padding:10px; margin:10px;">
+
+            {% if food.image %}
+                <img src="{{ food.image.url }}" width="200">
+            {% endif %}
+
+            <h3>{{ food.name }}</h3>
+
+            <p>Price: KSh {{ food.price }}</p>
+
+            {% if food.is_available %}
+                <p>🟢 Available</p>
+            {% else %}
+                <p>🔴 Out of Stock</p>
+            {% endif %}
+
+        </div>
+    {% endfor %}
+
+{% endfor %}

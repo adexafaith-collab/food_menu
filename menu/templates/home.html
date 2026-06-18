@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Food Menu</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f4f4;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+        }
+
+        .card {
+            background: white;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 10px;
+        }
+
+        img {
+            width: 200px;
+            border-radius: 10px;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 12px;
+            background: green;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .cart-btn {
+            background: blue;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🍔 Food Menu</h1>
+
+    <a href="{% url 'view_cart' %}" class="cart-btn">
+        View Cart 🛒
+    </a>
+
+    {% for food in foods %}
+    <div class="card">
+
+        {% if food.image %}
+            <img src="{{ food.image.url }}" alt="{{ food.name }}">
+        {% endif %}
+
+        <h2>{{ food.name }}</h2>
+
+        <p>{{ food.description }}</p>
+
+        <a href="{% url 'add_to_cart' food.id %}">
+            Add to Cart 🛒
+        </a>
+
+    </div>
+    {% endfor %}
+
+</div>
+
+</body>
+</html>
