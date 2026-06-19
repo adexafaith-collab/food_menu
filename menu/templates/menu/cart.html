@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Cart</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #111;
+            color: white;
+            padding: 20px;
+        }
+
+        .item {
+            border: 1px solid white;
+            margin: 10px;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .total {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+
+        .btn {
+            padding: 10px 15px;
+            background: orange;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>🛒 Your Cart</h1>
+
+{% for item in items %}
+    <div class="item">
+        <h3>{{ item.food.name }}</h3>
+        <p>Qty: {{ item.qty }}</p>
+        <p>Subtotal: KSh {{ item.subtotal }}</p>
+    </div>
+{% endfor %}
+
+<hr>
+
+<p class="total">Total: KSh {{ total }}</p>
+<p class="total">Delivery Fee: KSh {{ delivery_fee }}</p>
+<p class="total"><b>Grand Total: KSh {{ grand_total }}</b></p>
+
+<a href="{% url 'food_menu' %}" class="btn">Continue Shopping</a>
+
+</body>
+</html>

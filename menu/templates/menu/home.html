@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Adexa Restaurant</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+     {% load static %}
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <style>
+body {
+    margin: 0;
+    font-family: Arial;
+}
+
+.hero {
+    height: 100vh;
+    background-image: url("https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba");
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    color: white;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 1;
+}
+
+.content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    top: 35%;
+}
+
+.btn-custom {
+    margin: 10px;
+    padding: 10px 20px;
+    border-radius: 8px;
+}
+</style>
+       
+</head>
+
+<body>
+
+<div class="hero">
+    <div class="overlay"></div>
+
+    <div class="content">
+    <h1>Welcome to Adexa Restaurant 🍽️</h1>
+    <p>Fresh food • Fast delivery • Delicious taste</p>
+
+    <!-- FIXED BUTTONS -->
+    <a href="{% url 'register' %}" class="btn btn-success btn-custom">
+    Create Account
+</a>
+
+<a href="{% url 'login' %}" class="btn btn-success btn-custom">
+    Login
+        </a>
+    </div>
+</div>
+
+</body>
+</html>

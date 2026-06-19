@@ -1,51 +1,100 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from .models import Food, Cart, CartItem
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
+from django.db import IntegrityError
+from .models import Food
 
 
-# 1. HOME PAGE
+# HOME PAGE
 def home(request):
+    return render(request, 'menu/home.html')
+
+
+# FOOD MENU PAGE
+def food_menu(request):
     foods = Food.objects.all()
-    return render(request, 'home.html', {'foods': foods})
+    return render(request, 'menu/food_menu.html', {'foods': foods})
 
 
-# 2. ADD TO CART
+# REGISTER
+def register(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+
+        try:
+            User.objects.create_user(username=username, password=password)
+            return redirect('login')
+
+        except IntegrityError:
+            return render(request, 'menu/register.html', {
+                'error': 'Username already exists. Try another one.'
+            })
+
+    return render(request, 'menu/register.html')
+
+
+# LOGIN
+def login_view(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('food_menu')
+        else:
+            return render(request, 'menu/login.html', {
+                'error': 'Invalid username or password'
+            })
+
+    return render(request, 'menu/login.html')
+
+
+# ADD TO CART (REAL WORKING VERSION)
 def add_to_cart(request, food_id):
-    cart, _ = Cart.objects.get_or_create(id=1)
+    food = Food.objects.get(id=food_id)
 
-    food = get_object_or_404(Food, id=food_id)
+    cart = request.session.get('cart', {})
+    food_id_str = str(food_id)
 
-    item, created = CartItem.objects.get_or_create(
-        cart=cart,
-        food=food
-    )
-
-    if created:
-        item.quantity = 1
+    if food_id_str in cart:
+        cart[food_id_str] += 1
     else:
-        item.quantity += 1
+        cart[food_id_str] = 1
 
-    item.save()
+    request.session['cart'] = cart
 
-    return redirect('home')
+    return redirect('view_cart')
 
 
-# 3. VIEW CART  👈 THIS IS WHERE YOUR CODE GOES
+# VIEW CART (WITH TOTALS)
 def view_cart(request):
-    cart, _ = Cart.objects.get_or_create(id=1)
-    items = CartItem.objects.filter(cart=cart)
+    cart = request.session.get('cart', {})
 
-    subtotal = 0
+    items = []
+    total = 0
 
-    for item in items:
-        subtotal += item.quantity * 100
+    for food_id, qty in cart.items():
+        food = Food.objects.get(id=food_id)
 
-    delivery_fee = 150
+        subtotal = food.price * qty
+        total += subtotal
 
-    total = subtotal + delivery_fee
+        items.append({
+            'food': food,
+            'qty': qty,
+            'subtotal': subtotal
+        })
 
-    return render(request, 'cart.html', {
+    delivery_fee = 100
+    grand_total = total + delivery_fee
+
+    return render(request, 'menu/cart.html', {
         'items': items,
-        'subtotal': subtotal,
+        'total': total,
         'delivery_fee': delivery_fee,
-        'total': total
+        'grand_total': grand_total
     })
