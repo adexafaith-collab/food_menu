@@ -1,75 +1,82 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Food Menu</title>
+    <title>Adexa Restaurant</title>
 
     <style>
-        body {
-            font-family: Arial;
-            background: #f4f4f4;
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial,sans-serif;
         }
 
-        .container {
-            width: 80%;
-            margin: auto;
+        body{
+            background:#f4f4f4;
         }
 
-        .card {
-            background: white;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 10px;
+        .hero{
+            height:100vh;
+            background:url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4');
+            background-size:cover;
+            background-position:center;
+            display:flex;
+            justify-content:center;
+            align-items:center;
         }
 
-        img {
-            width: 200px;
-            border-radius: 10px;
+        .overlay{
+            background:rgba(0,0,0,0.6);
+            padding:50px;
+            border-radius:15px;
+            text-align:center;
+            color:white;
         }
 
-        a {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 8px 12px;
-            background: green;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
+        h1{
+            font-size:50px;
+            margin-bottom:20px;
         }
 
-        .cart-btn {
-            background: blue;
-            margin-bottom: 20px;
+        p{
+            font-size:20px;
+            margin-bottom:30px;
+        }
+
+        .btn{
+            padding:12px 25px;
+            background:green;
+            color:white;
+            text-decoration:none;
+            border-radius:8px;
+            margin:10px;
+        }
+
+        .btn:hover{
+            background:darkgreen;
         }
     </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="hero">
 
-    <h1>🍔 Food Menu</h1>
+    <div class="overlay">
 
-    <a href="{% url 'view_cart' %}" class="cart-btn">
-        View Cart 🛒
-    </a>
+        <h1>🍽 Welcome to Adexa Restaurant</h1>
 
-    {% for food in foods %}
-    <div class="card">
+        <p>
+            Fresh food • Fast delivery • Delicious taste
+        </p>
 
-        {% if food.image %}
-            <img src="{{ food.image.url }}" alt="{{ food.name }}">
-        {% endif %}
+        <a href="/register/" class="btn">Create Account</a>
 
-        <h2>{{ food.name }}</h2>
+        <a href="/login/" class="btn">Login</a>
 
-        <p>{{ food.description }}</p>
-
-        <a href="{% url 'add_to_cart' food.id %}">
-            Add to Cart 🛒
-        </a>
+        <a href="/menu/" class="btn">View Menu</a>
 
     </div>
-    {% endfor %}
 
 </div>
 
