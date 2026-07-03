@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact Us - Adexa Restaurant</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #111;
+            color: white;
+            font-family: Arial;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .box {
+            background: rgba(255,255,255,0.05);
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .btn-custom {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1 class="text-center">📞 Contact Adexa Restaurant</h1>
+
+    <!-- RESTAURANT DESCRIPTION -->
+    <div class="box">
+        <h3>🏪 About Us</h3>
+
+        <p>
+            Welcome to <strong>Adexa Restaurant</strong>, your home of fresh, delicious, and affordable meals.
+            We specialize in fast delivery, quality ingredients, and customer satisfaction.
+            Whether you're craving local dishes or fast food, we are here to serve you with love and care.
+        </p>
+
+        <p>
+            Our mission is to make ordering food simple, fast, and enjoyable for everyone.
+        </p>
+    </div>
+
+    <!-- CONTACT DETAILS -->
+    <div class="box">
+        <h3>📱 Contact Details</h3>
+
+        <p><strong>Phone:</strong> 0114531169</p>
+
+        <p><strong>Email:</strong> adexarestaurant@gmail.com</p>
+
+        <p><strong>Location:</strong> Kenya</p>
+    </div>
+
+    <!-- WHATSAPP -->
+    <div class="box text-center">
+        <h3>💬 Quick Support</h3>
+
+        <a href="https://wa.me/254114531169" class="btn btn-success btn-custom">
+            Chat on WhatsApp
+        </a>
+
+        <a href="mailto:adexarestaurant@gmail.com" class="btn btn-primary btn-custom">
+            Send Email
+        </a>
+
+        <br><br>
+
+        <a href="{% url 'home' %}" class="btn btn-secondary">
+            Back Home
+        </a>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -59,6 +59,29 @@
         .btn:hover {
             background: darkorange;
         }
+
+        .contact {
+            margin-top: 60px;
+            text-align: center;
+            padding: 25px;
+            background: rgba(0,0,0,0.75);
+            border-radius: 12px;
+        }
+
+        .contact a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background: green;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        .contact a:hover {
+            background: darkgreen;
+        }
+
     </style>
 </head>
 
@@ -76,26 +99,64 @@
 
                 {% if food.image %}
                     <img src="{{ food.image.url }}">
+                {% else %}
+                    <img src="https://via.placeholder.com/250x160">
                 {% endif %}
 
                 <h3>{{ food.name }}</h3>
 
                 <p>Price: KSh {{ food.price }}</p>
 
-                {% if food.is_available %}
-                    <p>🟢 Available</p>
-                {% else %}
-                    <p>🔴 Out of Stock</p>
-                {% endif %}
+                <p>🟢 Available</p>
 
-                <!-- ADD TO CART BUTTON -->
                 <a href="{% url 'add_to_cart' food.id %}" class="btn">
                     Add to Cart
                 </a>
 
             </div>
 
+        {% empty %}
+
+            <p style="text-align:center; width:100%;">
+                ❌ No food available yet. Please check back later.
+            </p>
+
         {% endfor %}
+
+    </div>
+
+    <!-- ================= CONTACT SECTION ================= -->
+    <div class="contact">
+
+        <h2>📞 Contact Adexa Restaurant</h2>
+
+        <p>If you need help with orders, delivery or inquiries.</p>
+
+        <p><strong>Phone:</strong> 0114531169</p>
+
+        <a href="https://wa.me/254114531169">
+            Chat on WhatsApp
+        </a>
+
+    </div>
+
+    <!-- ================= RESTAURANT DESCRIPTION ================= -->
+    <div class="contact">
+
+        <h2>🏪 About Adexa Restaurant</h2>
+
+        <p>
+            Welcome to <strong>Adexa Restaurant</strong>, your home of fresh, delicious, and affordable meals.
+            We prepare food with love, quality ingredients, and fast delivery service.
+        </p>
+
+        <p>
+            We specialize in fast food, local dishes, and customer satisfaction is our priority.
+        </p>
+
+        <p>
+            📍 Order anytime and we will deliver fresh food to you.
+        </p>
 
     </div>
 
