@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
 from .models import Food, Cart, CartItem, Order
@@ -29,22 +29,37 @@ def food_menu(request):
 
 
 # =========================
+# =========================
 # REGISTER
 # =========================
 def register(request):
     if request.method == "POST":
         username = request.POST.get("username")
-        password = request.POST.get("password")
+        password1 = request.POST.get("password1")
+        password2 = request.POST.get("password2")
 
-        try:
-            User.objects.create_user(username=username, password=password)
-            return redirect('login')
-        except:
-            return render(request, 'menu/register.html', {
-                'error': 'Username already exists'
+        # Check if passwords match
+        if password1 != password2:
+            return render(request, "menu/register.html", {
+                "error": "Passwords do not match."
             })
 
-    return render(request, 'menu/register.html')
+        # Check if username already exists
+        if User.objects.filter(username=username).exists():
+            return render(request, "menu/register.html", {
+                "error": "Username already exists."
+            })
+
+        # Create user
+        User.objects.create_user(
+            username=username,
+            password=password1
+        )
+
+        return redirect("login")
+
+    return render(request, "menu/register.html")
+    
 
 
 # =========================
@@ -70,6 +85,14 @@ def login_view(request):
         })
 
     return render(request, 'menu/login.html')
+
+# =========================
+# LOGOUT
+# =========================
+@login_required
+def logout_view(request):
+    logout(request)
+    return redirect('login')
 
 
 # =========================
@@ -156,6 +179,8 @@ def add_to_cart(request, food_id):
     return redirect('view_cart')
 
 
+
+
 # =========================
 # VIEW CART
 # =========================
@@ -186,6 +211,42 @@ def remove_from_cart(request, food_id):
     item = CartItem.objects.get(cart=cart, food_id=food_id)
     item.delete()
     return redirect('view_cart')
+
+# =========================
+# PLACE ORDER
+# =========================
+@login_required
+def place_order(request):
+    if request.method == "POST":
+
+        cart = Cart.objects.get(user=request.user)
+        items = cart.cartitem_set.all()
+
+        if not items:
+            return redirect('view_cart')
+
+        items_text = ""
+        total_price = 0
+
+        for item in items:
+            subtotal = item.item_total()
+            items_text += f"{item.food.name} x {item.quantity} = KSh {subtotal}\n"
+            total_price += subtotal
+
+        # Add delivery fee
+        total_price += 100
+
+        # Save order
+        Order.objects.create(
+            user=request.user,
+            items_text=items_text,
+            total_price=total_price
+        )
+
+        # Clear cart
+        items.delete()
+
+        return redirect('food_menu')
 
 # =========================
 # ORDER STATUS UPDATE

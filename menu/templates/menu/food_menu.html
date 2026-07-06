@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,6 +17,27 @@
             min-height: 100vh;
             padding: 20px;
             color: white;
+        }
+
+        /* Logout button */
+        .top-bar {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .logout-btn {
+            background: red;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .logout-btn:hover {
+            background: darkred;
         }
 
         h1 {
@@ -89,6 +111,16 @@
 
 <div class="overlay">
 
+    <!-- Logout Button -->
+    {% if user.is_authenticated %}
+    <div class="top-bar">
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="logout-btn">Logout</button>
+        </form>
+    </div>
+    {% endif %}
+
     <h1>🍽️ Restaurant Menu</h1>
 
     <div class="food-container">
@@ -146,12 +178,15 @@
         <h2>🏪 About Adexa Restaurant</h2>
 
         <p>
-            Welcome to <strong>Adexa Restaurant</strong>, your home of fresh, delicious, and affordable meals.
-            We prepare food with love, quality ingredients, and fast delivery service.
+            Welcome to <strong>Adexa Restaurant</strong>, your home of fresh,
+            delicious, and affordable meals.
+            We prepare food with love, quality ingredients,
+            and fast delivery service.
         </p>
 
         <p>
-            We specialize in fast food, local dishes, and customer satisfaction is our priority.
+            We specialize in fast food, local dishes,
+            and customer satisfaction is our priority.
         </p>
 
         <p>
@@ -164,3 +199,4 @@
 
 </body>
 </html>
+
